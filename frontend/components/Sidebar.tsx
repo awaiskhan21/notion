@@ -18,7 +18,7 @@ import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import NewDocumentButton from "./NewDocumentButton";
-import { Button } from "./ui/button";
+import SidebarOptions from "./SidebarOptions";
 
 interface RoomDocument extends DocumentData {
   createdAt: string;
@@ -72,7 +72,25 @@ function Sidebar() {
           <>
             <h2 className="text-gray-500 text-2xl font-semibold">My Doc</h2>
             {groupedData.owner.map((doc) => (
-              <p>{doc.roomId}</p>
+              <SidebarOptions
+                key={doc.id}
+                href={`/doc/${doc.id}`}
+                id={doc.id}
+              />
+            ))}
+          </>
+        )}
+      </div>
+      <div>
+        {groupedData.editor.length > 0 && (
+          <>
+            <h2>Shared With Me</h2>
+            {groupedData.editor.map((doc) => (
+              <SidebarOptions
+                key={doc.id}
+                href={`/doc/${doc.id}`}
+                id={doc.id}
+              />
             ))}
           </>
         )}
@@ -94,9 +112,7 @@ function Sidebar() {
           </SheetContent>
         </Sheet>
       </div>
-      <div>
-        <Button onClick={() => alert("hii")}>alert</Button>
-      </div>
+
       <div className="hidden md:inline">{menuOptions}</div>
     </div>
   );
